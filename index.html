@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darwin Coin ($DARWIN) - The Evolution of Wealth</title>
+    
+    <link rel="icon" type="image/png" href="https://i.ibb.co/G37GDKz1/apple-touch-icon.png">
+
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Подключение шрифтов Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Иконки Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Определение пользовательских стилей и шрифтов */
+        body {
+            background-color: #111827; /* Еще более глубокий темный фон */
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            cursor: none; /* Скрываем стандартный курсор */
+        }
+        .font-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        /* Стили для фона Hero-секции */
+        .hero-bg {
+            background-image: url('https://i.ibb.co/WNT37jKC/De-Watermark-ai-1751045210130.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        /* Неоновое свечение */
+        .neon-glow-green {
+            box-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14, 0 0 15px #39FF14, 0 0 20px #000;
+        }
+        .neon-text-green {
+            text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;
+        }
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            .hero-bg {
+                background-attachment: scroll;
+            }
+            body {
+                cursor: auto; /* Возвращаем обычный курсор на мобильных */
+            }
+            .cursor-dot, .cursor-outline {
+                display: none; /* Скрываем кастомный курсор на мобильных */
+            }
+        }
+        /* Плавная прокрутка */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* --- Динамичная анимация графика --- */
+        .hero-bg svg {
+            transition: transform 0.2s ease-out;
+        }
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-undraw 6s ease-in-out infinite;
+        }
+        
+        @keyframes draw-undraw {
+            0% { stroke-dashoffset: 1000; }
+            45% { stroke-dashoffset: 0; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 1000; }
+        }
+        .pulse-point {
+            animation: pulse-reborn 6s ease-in-out infinite;
+        }
+        @keyframes pulse-reborn {
+            0%, 40%, 100% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 1; }
+            70% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* --- УЛУЧШЕНИЕ: Анимация появления секций при скролле --- */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- УЛУЧШЕНИЕ: Кастомный курсор --- */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #39FF14;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(57, 255, 20, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: 0.1s;
+        }
+        .cursor-dot.hovered { width: 30px; height: 30px; opacity: 0.2;}
+        .cursor-outline.hovered { display: none; }
+
+    </style>
+</head>
+<body class="bg-[#111827]">
+    <!-- УЛУЧШЕНИЕ: Кастомный курсор -->
+    <div class="cursor-outline"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="bg-[#1C2A3A]/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-700/50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                <img src="https://i.ibb.co/jvc2DZpk/2025-06-27-191201-sloi-2.png" alt="Darwin Coin Logo" class="h-14 w-14">
+                <span class="text-xl font-bold text-white font-title">Darwin Coin</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
+                <a href="#tokenomics" class="text-gray-300 hover:text-white transition">Tokenomics</a>
+                <a href="#roadmap" class="text-gray-300 hover:text-white transition">Roadmap</a>
+                <a href="#how-to-buy" class="text-gray-300 hover:text-white transition">How to Buy</a>
+                <a href="#community" class="text-gray-300 hover:text-white transition">Community</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-white focus:outline-none">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+             <a href="#about" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">About</a>
+             <a href="#tokenomics" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">Tokenomics</a>
+             <a href="#roadmap" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">Roadmap</a>
+             <a href="#how-to-buy" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">How to Buy</a>
+             <a href="#community" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">Community</a>
+        </div>
+    </nav>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <header class="hero-bg relative min-h-screen flex items-center justify-center text-white text-center py-20 px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="absolute inset-0 z-0 opacity-20">
+            <svg width="100%" height="100%" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice">
+                <polyline class="chart-line" fill="none" stroke="#39FF14" stroke-width="4" points="0,350 100,300 200,320 300,250 400,200 500,150 600,180 700,100 800,120 900,50 1000,80" />
+                <circle class="pulse-point" cx="900" cy="50" r="10" fill="#39FF14"/>
+            </svg>
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="font-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4">The Evolution of Wealth.</h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Welcome to Darwin Coin ($DARWIN) — where only the fittest portfolios survive on the Solana network.</p>
+            <div class="flex flex-col items-center justify-center gap-4">
+                <a href="#how-to-buy" class="bg-[#365314] text-white font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition duration-300 shadow-lg neon-glow-green border-2 border-[#65a30d]">
+                    Buy $DARWIN
+                </a>
+                <p class="text-gray-400 text-sm mt-4 max-w-sm mx-auto">
+                    Our detailed Whitepaper is in its final stages and will be published soon.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main class="bg-[#111827]">
+        <!-- О ПРОЕКТЕ -->
+        <section id="about" class="py-20 px-4 reveal-section">
+            <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-6">The Origin of a New Species.</h2>
+                    <p class="text-gray-300 leading-relaxed">
+                        In the ruthless jungle of cryptocurrencies, it's not the strongest that survives, but the most adaptive. Darwin Coin was created to evolve. Built on the lightning-fast Solana network, $DARWIN combines meme culture with community power, creating a token ready to adapt, grow, and dominate.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center p-4">
+                    <div class="flex items-end justify-between w-full max-w-md space-x-2 text-gray-400">
+                        <div class="text-center group">
+                           <img src="https://i.ibb.co/JwtddbLF/1-Gemini-Generated-Image-xl3cvyxl3cvyxl3c-Photoroom2.png" class="h-16 w-16 mx-auto transition duration-500 object-contain" alt="Обезьяна">
+                           <p class="text-xs mt-1">Ape</p>
+                        </div>
+                        <div class="flex-1 h-px bg-gray-600 mb-5"></div>
+                        <div class="text-center group">
+                           <img src="https://i.ibb.co/Z6xdcWJV/2-Gemini-Generated-Image-zkgu6zkgu6zkgu6z-Photoroom.png" class="h-20 w-20 mx-auto transition duration-500 object-contain" alt="Ранний человек">
+                           <p class="text-xs mt-1">Early Man</p>
+                        </div>
+                         <div class="flex-1 h-px bg-gray-600 mb-5"></div>
+                        <div class="text-center group">
+                           <img src="https://i.ibb.co/dwf0v7Xq/3-Gemini-Generated-Image-nil4r2nil4r2nil4-Photoroom.png" class="h-24 w-24 mx-auto transition duration-500 object-contain" alt="Человек">
+                           <p class="text-xs mt-1">Human</p>
+                        </div>
+                         <div class="flex-1 h-px bg-gray-600 mb-5"></div>
+                        <div class="text-center">
+                           <img src="https://i.ibb.co/8DF0SYVn/4-Gemini-Generated-Image-6b7za46b7za46b7z-Photoroom.png" class="h-28 w-28 mx-auto" alt="Крипто Человек">
+                           <p class="text-xs mt-1 font-bold text-[#39FF14]">Crypto Human</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ТОКЕНОМИКА -->
+        <section id="tokenomics" class="py-20 px-4 bg-[#182432] reveal-section">
+            <div class="container mx-auto text-center">
+                <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-12">The Laws of Our Ecosystem.</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Карточка 1 с анимированным счетчиком -->
+                    <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                        <i data-feather="server" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Total Supply</h3>
+                        <p class="text-2xl font-semibold text-[#39FF14] neon-text-green" data-count="1000000000">0</p>
+                        <p class="text-gray-400 mt-2">A new population is born.</p>
+                    </div>
+                    <!-- Карточка 2 -->
+                    <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                        <i data-feather="zap" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Taxes</h3>
+                        <p class="text-2xl font-semibold text-[#39FF14] neon-text-green">0% Buy / 0% Sell</p>
+                        <p class="text-gray-400 mt-2">Frictionless evolution.</p>
+                    </div>
+                    <!-- Карточка 3 -->
+                    <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                        <i data-feather="shield" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Liquidity</h3>
+                        <p class="text-2xl font-semibold text-[#39FF14] neon-text-green">LP Tokens Burnt</p>
+                        <p class="text-gray-400 mt-2">No predators, secured ecosystem.</p>
+                    </div>
+                    <!-- Карточка 4 -->
+                    <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-white mb-2">Contract Address</h3>
+                        <input id="contractAddress" type="text" readonly class="bg-gray-800 text-center text-white w-full p-2 rounded mt-4 text-xs" value="DARWINXXXXXXXXXXXXXXXXXXXXXXXSOLANA">
+                        <button onclick="copyContract()" class="bg-[#D4AF37] text-black font-bold py-2 px-4 rounded-lg mt-3 text-sm flex items-center justify-center gap-2 w-full hover:bg-yellow-500 transition">
+                            <i data-feather="copy" class="w-4 h-4"></i>
+                            <span id="copy-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ДОРОЖНАЯ КАРТА -->
+        <section id="roadmap" class="py-20 px-4 reveal-section">
+            <div class="container mx-auto">
+                <h2 class="font-title text-4xl md:text-5xl font-bold text-white text-center mb-16">Our Evolutionary Path.</h2>
+                <div class="hidden md:block relative wrap overflow-hidden p-10 h-full">
+                    <div class="border-2-2 absolute border-opacity-20 border-gray-500 h-full border" style="left: 50%"></div>
+                    <!-- Этап 1 -->
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-green-500 shadow-xl w-12 h-12 rounded-full"><i data-feather="check" class="w-8 h-8 text-white mx-auto"></i></div>
+                        <div class="order-1 bg-[#2D3748] rounded-lg shadow-xl w-5/12 px-6 py-4 border border-gray-700 transform hover:scale-105 transition-transform duration-300">
+                            <h3 class="mb-3 font-bold text-white text-xl">Phase 1: The Primordial Soup</h3>
+                            <p class="text-sm leading-snug tracking-wide text-gray-300">Launch on Raydium, community building, 1,000 holders, Twitter campaign.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 2 -->
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="anchor" class="w-6 h-6 text-white mx-auto"></i></div>
+                        <div class="order-1 bg-[#2D3748] rounded-lg shadow-xl w-5/12 px-6 py-4 border border-gray-700 transform hover:scale-105 transition-transform duration-300">
+                            <h3 class="mb-3 font-bold text-white text-xl">Phase 2: The Cambrian Explosion</h3>
+                            <p class="text-sm leading-snug tracking-wide text-gray-300">Listings on CoinGecko & CoinMarketCap, influencer marketing, first partnerships.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 3 -->
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline">
+                        <div class="order-1 w-5/12"></div>
+                         <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="bar-chart-2" class="w-6 h-6 text-white mx-auto"></i></div>
+                        <div class="order-1 bg-[#2D3748] rounded-lg shadow-xl w-5/12 px-6 py-4 border border-gray-700 transform hover:scale-105 transition-transform duration-300">
+                            <h3 class="mb-3 font-bold text-white text-xl">Phase 3: Age of Mammals</h3>
+                            <p class="text-sm leading-snug tracking-wide text-gray-300">CEX Listings, development of utility (e.g., "Evolutionary Staking"), global community growth.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 4 -->
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
+                        <div class="order-1 w-5/12"></div>
+                        <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="globe" class="w-6 h-6 text-white mx-auto"></i></div>
+                        <div class="order-1 bg-[#2D3748] rounded-lg shadow-xl w-5/12 px-6 py-4 border border-gray-700 transform hover:scale-105 transition-transform duration-300">
+                            <h3 class="mb-3 font-bold text-white text-xl">Phase 4: The Future Human</h3>
+                            <p class="text-sm leading-snug tracking-wide text-gray-300">Top-tier exchange listings, merchandise, secret Darwin projects.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:hidden space-y-8">
+                    <!-- Этап 1 -->
+                    <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
+                        <div class="bg-green-500 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="check" class="text-white"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Phase 1: The Primordial Soup</h3>
+                            <p class="text-sm text-gray-300 mt-1">Launch on Raydium, community building, 1,000 holders, Twitter campaign.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 2 -->
+                    <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
+                        <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="anchor" class="text-white"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Phase 2: The Cambrian Explosion</h3>
+                            <p class="text-sm text-gray-300 mt-1">Listings on CoinGecko & CoinMarketCap, influencer marketing, first partnerships.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 3 -->
+                    <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
+                        <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="bar-chart-2" class="text-white"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Phase 3: Age of Mammals</h3>
+                            <p class="text-sm text-gray-300 mt-1">CEX Listings, development of utility (e.g., "Evolutionary Staking"), global community growth.</p>
+                        </div>
+                    </div>
+                    <!-- Этап 4 -->
+                    <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
+                        <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="globe" class="text-white"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Phase 4: The Future Human</h3>
+                            <p class="text-sm text-gray-300 mt-1">Top-tier exchange listings, merchandise, secret Darwin projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КАК КУПИТЬ -->
+        <section id="how-to-buy" class="py-20 px-4 bg-[#111827] reveal-section">
+             <div class="container mx-auto">
+                <h2 class="font-title text-4xl md:text-5xl font-bold text-white text-center mb-12">How to Adapt and Acquire $DARWIN</h2>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 text-center relative">
+                    <div class="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-gray-700 -z-10"></div>
+                    <!-- Шаг 1 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
+                            <img src="https://i.ibb.co/0jNxp8dP/images.png" alt="Phantom Wallet Icon" class="rounded-full object-contain">
+                        </div>
+                        <h3 class="font-bold text-white mt-4 mb-2">Step 1: Get a Wallet</h3>
+                        <p class="text-gray-400 text-sm">Create a Phantom or Solflare wallet.</p>
+                    </div>
+                    <!-- Шаг 2 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
+                             <img src="https://i.ibb.co/Y7RrJPDG/Solana-logo.png" alt="Solana Icon" class="rounded-full object-contain">
+                        </div>
+                        <h3 class="font-bold text-white mt-4 mb-2">Step 2: Get SOL</h3>
+                        <p class="text-gray-400 text-sm">Buy SOL on an exchange.</p>
+                    </div>
+                    <!-- Шаг 3 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
+                           <img src="https://i.ibb.co/zWXtcKdQ/ic-crypto-ray.png" alt="Raydium Icon" class="rounded-full object-contain">
+                        </div>
+                        <h3 class="font-bold text-white mt-4 mb-2">Step 3: Go to Raydium</h3>
+                        <p class="text-gray-400 text-sm">Navigate to a DEX to trade.</p>
+                    </div>
+                    <!-- Шаг 4 -->
+                    <div class="flex flex-col items-center">
+                        <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
+                             <img src="https://i.ibb.co/jvc2DZpk/2025-06-27-191201-sloi-2.png" alt="Darwin Coin Logo" class="h-16 w-16">
+                        </div>
+                        <h3 class="font-bold text-white mt-4 mb-2">Step 4: Swap for $DARWIN</h3>
+                        <p class="text-gray-400 text-sm">Swap your SOL for $DARWIN.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                     <a href="#" class="bg-[#365314] text-white font-bold py-4 px-10 rounded-lg text-xl transform hover:scale-105 transition duration-300 shadow-lg neon-glow-green border-2 border-[#65a30d]">
+                        Buy $DARWIN Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- СООБЩЕСТВО -->
+        <section id="community" class="py-20 px-4 reveal-section">
+            <div class="container mx-auto text-center">
+                <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-6">Our Tribe is Evolving.</h2>
+                <p class="text-gray-300 text-xl mb-10">Join Us.</p>
+                 <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <a href="#" class="bg-gray-800 hover:bg-black text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center gap-3 transition-colors duration-300 w-full sm:w-auto justify-center neon-glow-white-hover">
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 7.184L18.901 1.153Zm-1.61 19.99h2.54l-14.4-16.544H4.142l13.148 16.544Z"/></svg>
+                        Join us on X
+                    </a>
+                    <!-- ИСПРАВЛЕНИЕ: Заменен SVG-код для Telegram -->
+                    <a href="#" class="bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center gap-3 transition-colors duration-300 w-full sm:w-auto justify-center neon-glow-blue-hover">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88l-4.98-3.6-2.32 2.2a.83.83 0 01-.59.28z"/></svg>
+                        Chat on Telegram
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ФУТЕР -->
+    <footer class="bg-[#111827] border-t border-gray-700/50 text-gray-400 py-8 px-4">
+        <div class="container mx-auto text-center">
+            <div class="flex justify-center mb-4">
+                <a href="#" class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co/jvc2DZpk/2025-06-27-191201-sloi-2.png" alt="Darwin Coin Logo" class="h-10 w-10">
+                    <span class="text-lg font-bold text-white font-title">Darwin Coin</span>
+                </a>
+            </div>
+            <p class="text-sm">© 2025 Darwin Coin. All rights reserved.</p>
+            <p class="text-xs max-w-2xl mx-auto mt-2">Disclaimer: $DARWIN is a meme coin with no intrinsic value or expectation of financial return. It is for entertainment purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Инициализация иконок
+        feather.replace();
+
+        // Скрипт для мобильного меню
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('#mobile-menu a');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Скрипт для копирования адреса контракта
+        function copyContract() { 
+            const contractInput = document.getElementById('contractAddress');
+            contractInput.select();
+            contractInput.setSelectionRange(0, 99999); 
+            
+            try {
+                document.execCommand('copy');
+                const copyText = document.getElementById('copy-text');
+                copyText.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyText.textContent = 'Copy';
+                }, 2000);
+
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+        }
+        
+        // Скрипт для параллакс-эффекта
+        document.addEventListener('mousemove', function(e) {
+            const hero = document.querySelector('.hero-bg');
+            if (!hero) return;
+            const chart = hero.querySelector('svg');
+            if (!chart) return;
+            
+            const { clientX, clientY } = e;
+            const { offsetWidth, offsetHeight } = hero;
+            const xPos = (clientX / offsetWidth - 0.5) * 30; 
+            const yPos = (clientY / offsetHeight - 0.5) * 30;
+            chart.style.transform = `translateX(${xPos}px) translateY(${yPos}px)`;
+        });
+
+        // Анимация появления секций
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const counters = entry.target.querySelectorAll('[data-count]');
+                    counters.forEach(counter => {
+                        animateCount(counter);
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Функция для анимации чисел
+        function animateCount(element) {
+            const target = +element.getAttribute('data-count');
+            if (element.animated) return;
+            element.animated = true;
+            
+            let current = 0;
+            const increment = target / 100;
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.innerText = target.toLocaleString('en-US');
+                    clearInterval(interval);
+                } else {
+                    element.innerText = Math.ceil(current).toLocaleString('en-US');
+                }
+            }, 20);
+        }
+        
+        // Логика кастомного курсора
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseover', () => {
+                cursorDot.classList.add('hovered');
+                cursorOutline.classList.add('hovered');
+            });
+            el.addEventListener('mouseout', () => {
+                cursorDot.classList.remove('hovered');
+                cursorOutline.classList.remove('hovered');
+            });
+        });
+
+    </script>
+</body>
+</html>
