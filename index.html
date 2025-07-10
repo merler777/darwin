@@ -21,47 +21,61 @@
     <style>
         /* Определение пользовательских стилей и шрифтов */
         body {
-            background-color: #111827; /* Еще более глубокий темный фон */
+            background-color: #111827; 
             color: #E2E8F0;
             font-family: 'Inter', sans-serif;
-            cursor: none; /* Скрываем стандартный курсор */
+            cursor: none; 
         }
         .font-title {
             font-family: 'Cormorant Garamond', serif;
         }
-        /* Стили для фона Hero-секции */
-        .hero-bg {
-            background-image: url('https://i.ibb.co/WNT37jKC/De-Watermark-ai-1751045210130.jpg');
+        
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            z-index: -10;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Неоновое свечение */
+        #bg-jungle {
+            background-image: url('https://i.ibb.co/WNT37jKC/De-Watermark-ai-1751045210130.jpg');
+            opacity: 1;
+        }
+        #bg-city {
+            background-image: url('https://i.ibb.co/fzK4mxYR/Gemini-Generated-Image-imd3zimd3zimd3zi2333.png');
+            opacity: 0;
+        }
+        
         .neon-glow-green {
             box-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14, 0 0 15px #39FF14, 0 0 20px #000;
         }
         .neon-text-green {
             text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;
         }
-        /* Адаптация для мобильных устройств */
+        
+        /* АДАПТИВНОСТЬ: Отключение эффектов на мобильных */
         @media (max-width: 768px) {
-            .hero-bg {
+            .background-layer {
                 background-attachment: scroll;
             }
             body {
-                cursor: auto; /* Возвращаем обычный курсор на мобильных */
+                cursor: auto; 
             }
             .cursor-dot, .cursor-outline {
-                display: none; /* Скрываем кастомный курсор на мобильных */
+                display: none; 
             }
         }
-        /* Плавная прокрутка */
+        
         html {
             scroll-behavior: smooth;
         }
         
-        /* --- Динамичная анимация графика --- */
-        .hero-bg svg {
+        .hero-chart-container svg {
             transition: transform 0.2s ease-out;
         }
         .chart-line {
@@ -85,7 +99,6 @@
             70% { transform: scale(1); opacity: 1; }
         }
         
-        /* --- УЛУЧШЕНИЕ: Анимация появления секций при скролле --- */
         .reveal-section {
             opacity: 0;
             transform: translateY(30px);
@@ -96,7 +109,6 @@
             transform: translateY(0);
         }
 
-        /* --- УЛУЧШЕНИЕ: Кастомный курсор --- */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -126,26 +138,77 @@
         .cursor-dot.hovered { width: 30px; height: 30px; opacity: 0.2;}
         .cursor-outline.hovered { display: none; }
 
+        .liquid-text-nav {
+            background: linear-gradient(90deg, #4ade80, #bef264, #4ade80);
+            background-size: 250% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: liquid-flow 4s linear infinite;
+            filter: url(#green-glow);
+        }
+        @keyframes liquid-flow {
+            to {
+                background-position: 250% center;
+            }
+        }
+
+        #particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+        .leaf-particle {
+            position: absolute;
+            background: #39FF14;
+            border-radius: 0 50% 0 50%;
+            opacity: 0;
+        }
+        
     </style>
 </head>
-<body class="bg-[#111827]">
-    <!-- УЛУЧШЕНИЕ: Кастомный курсор -->
+<body>
+    <!-- Слои для фона -->
+    <div id="bg-jungle" class="background-layer"></div>
+    <div id="bg-city" class="background-layer"></div>
+
+    <!-- Контейнеры для анимаций -->
+    <div id="particle-container"></div>
+    <svg style="position: absolute; width: 0; height: 0;">
+        <defs>
+            <filter id="green-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"></feGaussianBlur>
+                <feFlood flood-color="#4ade80" result="flood"></feFlood>
+                <feComposite in="flood" in2="blur" operator="in" result="glow"></feComposite>
+                <feMerge>
+                    <feMergeNode in="glow"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+
     <div class="cursor-outline"></div>
     <div class="cursor-dot"></div>
 
     <!-- НАВИГАЦИЯ -->
-    <nav class="bg-[#1C2A3A]/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-700/50">
+    <nav class="bg-[#1C2A3A]/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-700/50" id="navbar">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="#" class="flex items-center space-x-3">
                 <img src="https://i.ibb.co/jvc2DZpk/2025-06-27-191201-sloi-2.png" alt="Darwin Coin Logo" class="h-14 w-14">
                 <span class="text-xl font-bold text-white font-title">Darwin Coin</span>
             </a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
-                <a href="#tokenomics" class="text-gray-300 hover:text-white transition">Tokenomics</a>
-                <a href="#roadmap" class="text-gray-300 hover:text-white transition">Roadmap</a>
-                <a href="#how-to-buy" class="text-gray-300 hover:text-white transition">How to Buy</a>
-                <a href="#community" class="text-gray-300 hover:text-white transition">Community</a>
+                <a href="#about" class="liquid-text-nav font-semibold">About</a>
+                <a href="#tokenomics" class="liquid-text-nav font-semibold">Tokenomics</a>
+                <a href="#roadmap" class="liquid-text-nav font-semibold">Roadmap</a>
+                <a href="#how-to-buy" class="liquid-text-nav font-semibold">How to Buy</a>
+                <a href="#community" class="liquid-text-nav font-semibold">Community</a>
             </div>
             <div class="md:hidden">
                 <button id="menu-btn" class="text-white focus:outline-none">
@@ -153,7 +216,7 @@
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden">
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1C2A3A]/90">
              <a href="#about" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">About</a>
              <a href="#tokenomics" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">Tokenomics</a>
              <a href="#roadmap" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700">Roadmap</a>
@@ -163,9 +226,9 @@
     </nav>
 
     <!-- ГЛАВНЫЙ ЭКРАН -->
-    <header class="hero-bg relative min-h-screen flex items-center justify-center text-white text-center py-20 px-4 overflow-hidden">
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="absolute inset-0 z-0 opacity-20">
+    <header class="relative min-h-screen flex items-center justify-center text-white text-center py-20 px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-black/60 z-0"></div>
+        <div class="hero-chart-container absolute inset-0 z-0 opacity-20">
             <svg width="100%" height="100%" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice">
                 <polyline class="chart-line" fill="none" stroke="#39FF14" stroke-width="4" points="0,350 100,300 200,320 300,250 400,200 500,150 600,180 700,100 800,120 900,50 1000,80" />
                 <circle class="pulse-point" cx="900" cy="50" r="10" fill="#39FF14"/>
@@ -175,19 +238,26 @@
             <h1 class="font-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4">The Evolution of Wealth.</h1>
             <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Welcome to Darwin Coin ($DARWIN) — where only the fittest portfolios survive on the Solana network.</p>
             <div class="flex flex-col items-center justify-center gap-4">
-                <a href="#how-to-buy" class="bg-[#365314] text-white font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition duration-300 shadow-lg neon-glow-green border-2 border-[#65a30d]">
-                    Buy $DARWIN
-                </a>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#how-to-buy" id="buy-button" class="bg-[#365314] text-white font-bold py-3 px-8 rounded-lg text-lg transform hover:scale-105 transition duration-300 shadow-lg neon-glow-green border-2 border-[#65a30d]">
+                        Buy $DARWIN
+                    </a>
+                    <a href="https://x.com/darwinsols" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-black text-white font-bold py-3 px-6 rounded-lg text-base flex items-center gap-3 transition-colors duration-300 justify-center transform hover:scale-105">
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 7.184L18.901 1.153Zm-1.61 19.99h2.54l-14.4-16.544H4.142l13.148 16.544Z"/></svg>
+                        Join us on X
+                    </a>
+                </div>
                 <p class="text-gray-400 text-sm mt-4 max-w-sm mx-auto">
                     Our detailed Whitepaper is in its final stages and will be published soon.
                 </p>
             </div>
         </div>
     </header>
-
-    <main class="bg-[#111827]">
-        <!-- О ПРОЕКТЕ -->
-        <section id="about" class="py-20 px-4 reveal-section">
+    
+    <!-- ИСПРАВЛЕНИЕ: Основной контейнер теперь прозрачный, чтобы фон был виден -->
+    <div class="relative z-10">
+        <!-- ИСПРАВЛЕНИЕ: Восстановлен контент секций -->
+        <section id="about" class="py-20 px-4 reveal-section bg-[#111827]/90 backdrop-blur-sm">
             <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-center md:text-left">
                     <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-6">The Origin of a New Species.</h2>
@@ -221,33 +291,28 @@
             </div>
         </section>
 
-        <!-- ТОКЕНОМИКА -->
-        <section id="tokenomics" class="py-20 px-4 bg-[#182432] reveal-section">
+        <section id="tokenomics" class="py-20 px-4 bg-[#182432]/90 backdrop-blur-sm reveal-section">
             <div class="container mx-auto text-center">
                 <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-12">The Laws of Our Ecosystem.</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Карточка 1 с анимированным счетчиком -->
                     <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
                         <i data-feather="server" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
                         <h3 class="text-xl font-bold text-white mb-2">Total Supply</h3>
                         <p class="text-2xl font-semibold text-[#39FF14] neon-text-green" data-count="1000000000">0</p>
                         <p class="text-gray-400 mt-2">A new population is born.</p>
                     </div>
-                    <!-- Карточка 2 -->
                     <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
                         <i data-feather="zap" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
                         <h3 class="text-xl font-bold text-white mb-2">Taxes</h3>
                         <p class="text-2xl font-semibold text-[#39FF14] neon-text-green">0% Buy / 0% Sell</p>
                         <p class="text-gray-400 mt-2">Frictionless evolution.</p>
                     </div>
-                    <!-- Карточка 3 -->
                     <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
                         <i data-feather="shield" class="w-12 h-12 mx-auto mb-4 text-[#D4AF37]"></i>
                         <h3 class="text-xl font-bold text-white mb-2">Liquidity</h3>
                         <p class="text-2xl font-semibold text-[#39FF14] neon-text-green">LP Tokens Burnt</p>
                         <p class="text-gray-400 mt-2">No predators, secured ecosystem.</p>
                     </div>
-                    <!-- Карточка 4 -->
                     <div class="bg-[#2D3748] p-8 rounded-xl border border-gray-700 shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
                         <h3 class="text-xl font-bold text-white mb-2">Contract Address</h3>
                         <input id="contractAddress" type="text" readonly class="bg-gray-800 text-center text-white w-full p-2 rounded mt-4 text-xs" value="DARWINXXXXXXXXXXXXXXXXXXXXXXXSOLANA">
@@ -260,13 +325,11 @@
             </div>
         </section>
 
-        <!-- ДОРОЖНАЯ КАРТА -->
-        <section id="roadmap" class="py-20 px-4 reveal-section">
+        <section id="roadmap" class="py-20 px-4 reveal-section bg-[#111827]/90 backdrop-blur-sm">
             <div class="container mx-auto">
                 <h2 class="font-title text-4xl md:text-5xl font-bold text-white text-center mb-16">Our Evolutionary Path.</h2>
                 <div class="hidden md:block relative wrap overflow-hidden p-10 h-full">
                     <div class="border-2-2 absolute border-opacity-20 border-gray-500 h-full border" style="left: 50%"></div>
-                    <!-- Этап 1 -->
                     <div class="mb-8 flex justify-between items-center w-full right-timeline">
                         <div class="order-1 w-5/12"></div>
                         <div class="z-20 flex items-center order-1 bg-green-500 shadow-xl w-12 h-12 rounded-full"><i data-feather="check" class="w-8 h-8 text-white mx-auto"></i></div>
@@ -275,7 +338,6 @@
                             <p class="text-sm leading-snug tracking-wide text-gray-300">Launch on Raydium, community building, 1,000 holders, Twitter campaign.</p>
                         </div>
                     </div>
-                    <!-- Этап 2 -->
                     <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
                         <div class="order-1 w-5/12"></div>
                         <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="anchor" class="w-6 h-6 text-white mx-auto"></i></div>
@@ -284,7 +346,6 @@
                             <p class="text-sm leading-snug tracking-wide text-gray-300">Listings on CoinGecko & CoinMarketCap, influencer marketing, first partnerships.</p>
                         </div>
                     </div>
-                    <!-- Этап 3 -->
                     <div class="mb-8 flex justify-between items-center w-full right-timeline">
                         <div class="order-1 w-5/12"></div>
                          <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="bar-chart-2" class="w-6 h-6 text-white mx-auto"></i></div>
@@ -293,7 +354,6 @@
                             <p class="text-sm leading-snug tracking-wide text-gray-300">CEX Listings, development of utility (e.g., "Evolutionary Staking"), global community growth.</p>
                         </div>
                     </div>
-                    <!-- Этап 4 -->
                     <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
                         <div class="order-1 w-5/12"></div>
                         <div class="z-20 flex items-center order-1 bg-gray-600 shadow-xl w-12 h-12 rounded-full"><i data-feather="globe" class="w-6 h-6 text-white mx-auto"></i></div>
@@ -305,7 +365,6 @@
                 </div>
                 
                 <div class="md:hidden space-y-8">
-                    <!-- Этап 1 -->
                     <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
                         <div class="bg-green-500 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="check" class="text-white"></i></div>
                         <div>
@@ -313,7 +372,6 @@
                             <p class="text-sm text-gray-300 mt-1">Launch on Raydium, community building, 1,000 holders, Twitter campaign.</p>
                         </div>
                     </div>
-                    <!-- Этап 2 -->
                     <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
                         <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="anchor" class="text-white"></i></div>
                         <div>
@@ -321,7 +379,6 @@
                             <p class="text-sm text-gray-300 mt-1">Listings on CoinGecko & CoinMarketCap, influencer marketing, first partnerships.</p>
                         </div>
                     </div>
-                    <!-- Этап 3 -->
                     <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
                         <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="bar-chart-2" class="text-white"></i></div>
                         <div>
@@ -329,7 +386,6 @@
                             <p class="text-sm text-gray-300 mt-1">CEX Listings, development of utility (e.g., "Evolutionary Staking"), global community growth.</p>
                         </div>
                     </div>
-                    <!-- Этап 4 -->
                     <div class="bg-[#2D3748] rounded-lg p-6 flex items-center space-x-4 border border-gray-700">
                         <div class="bg-gray-600 shadow-xl w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"><i data-feather="globe" class="text-white"></i></div>
                         <div>
@@ -341,13 +397,11 @@
             </div>
         </section>
 
-        <!-- КАК КУПИТЬ -->
-        <section id="how-to-buy" class="py-20 px-4 bg-[#111827] reveal-section">
+        <section id="how-to-buy" class="py-20 px-4 bg-[#182432]/90 backdrop-blur-sm reveal-section">
              <div class="container mx-auto">
                 <h2 class="font-title text-4xl md:text-5xl font-bold text-white text-center mb-12">How to Adapt and Acquire $DARWIN</h2>
                 <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 text-center relative">
                     <div class="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-gray-700 -z-10"></div>
-                    <!-- Шаг 1 -->
                     <div class="flex flex-col items-center">
                         <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
                             <img src="https://i.ibb.co/0jNxp8dP/images.png" alt="Phantom Wallet Icon" class="rounded-full object-contain">
@@ -355,7 +409,6 @@
                         <h3 class="font-bold text-white mt-4 mb-2">Step 1: Get a Wallet</h3>
                         <p class="text-gray-400 text-sm">Create a Phantom or Solflare wallet.</p>
                     </div>
-                    <!-- Шаг 2 -->
                     <div class="flex flex-col items-center">
                         <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
                              <img src="https://i.ibb.co/Y7RrJPDG/Solana-logo.png" alt="Solana Icon" class="rounded-full object-contain">
@@ -363,7 +416,6 @@
                         <h3 class="font-bold text-white mt-4 mb-2">Step 2: Get SOL</h3>
                         <p class="text-gray-400 text-sm">Buy SOL on an exchange.</p>
                     </div>
-                    <!-- Шаг 3 -->
                     <div class="flex flex-col items-center">
                         <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
                            <img src="https://i.ibb.co/zWXtcKdQ/ic-crypto-ray.png" alt="Raydium Icon" class="rounded-full object-contain">
@@ -371,7 +423,6 @@
                         <h3 class="font-bold text-white mt-4 mb-2">Step 3: Go to Raydium</h3>
                         <p class="text-gray-400 text-sm">Navigate to a DEX to trade.</p>
                     </div>
-                    <!-- Шаг 4 -->
                     <div class="flex flex-col items-center">
                         <div class="bg-[#2D3748] w-24 h-24 rounded-full flex items-center justify-center border-4 border-gray-600 z-10 p-2">
                              <img src="https://i.ibb.co/jvc2DZpk/2025-06-27-191201-sloi-2.png" alt="Darwin Coin Logo" class="h-16 w-16">
@@ -388,28 +439,21 @@
             </div>
         </section>
 
-        <!-- СООБЩЕСТВО -->
-        <section id="community" class="py-20 px-4 reveal-section">
+        <section id="community" class="py-20 px-4 reveal-section bg-[#111827]/90 backdrop-blur-sm">
             <div class="container mx-auto text-center">
                 <h2 class="font-title text-4xl md:text-5xl font-bold text-white mb-6">Our Tribe is Evolving.</h2>
                 <p class="text-gray-300 text-xl mb-10">Join Us.</p>
                  <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
-                    <a href="#" class="bg-gray-800 hover:bg-black text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center gap-3 transition-colors duration-300 w-full sm:w-auto justify-center neon-glow-white-hover">
+                    <a href="https://x.com/darwinsols" target="_blank" rel="noopener noreferrer" class="bg-gray-800 hover:bg-black text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center gap-3 transition-colors duration-300 w-full sm:w-auto justify-center neon-glow-white-hover">
                         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 7.184L18.901 1.153Zm-1.61 19.99h2.54l-14.4-16.544H4.142l13.148 16.544Z"/></svg>
                         Join us on X
-                    </a>
-                    <!-- ИСПРАВЛЕНИЕ: Заменен SVG-код для Telegram -->
-                    <a href="#" class="bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center gap-3 transition-colors duration-300 w-full sm:w-auto justify-center neon-glow-blue-hover">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.57c-.28 1.13-1.04 1.4-1.74.88l-4.98-3.6-2.32 2.2a.83.83 0 01-.59.28z"/></svg>
-                        Chat on Telegram
                     </a>
                 </div>
             </div>
         </section>
-    </main>
-
-    <!-- ФУТЕР -->
-    <footer class="bg-[#111827] border-t border-gray-700/50 text-gray-400 py-8 px-4">
+    </div>
+    
+    <footer class="bg-[#111827] border-t border-gray-700/50 text-gray-400 py-8 px-4 relative z-20">
         <div class="container mx-auto text-center">
             <div class="flex justify-center mb-4">
                 <a href="#" class="flex items-center space-x-2">
@@ -462,20 +506,18 @@
         
         // Скрипт для параллакс-эффекта
         document.addEventListener('mousemove', function(e) {
-            const hero = document.querySelector('.hero-bg');
-            if (!hero) return;
-            const chart = hero.querySelector('svg');
+            const chart = document.querySelector('header .hero-chart-container svg');
             if (!chart) return;
             
             const { clientX, clientY } = e;
-            const { offsetWidth, offsetHeight } = hero;
-            const xPos = (clientX / offsetWidth - 0.5) * 30; 
-            const yPos = (clientY / offsetHeight - 0.5) * 30;
+            const { innerWidth, innerHeight } = window;
+            const xPos = (clientX / innerWidth - 0.5) * 30; 
+            const yPos = (clientY / innerHeight - 0.5) * 30;
             chart.style.transform = `translateX(${xPos}px) translateY(${yPos}px)`;
         });
 
         // Анимация появления секций
-        const observer = new IntersectionObserver((entries) => {
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -488,7 +530,7 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-section').forEach(section => {
-            observer.observe(section);
+            sectionObserver.observe(section);
         });
 
         // Функция для анимации чисел
@@ -536,6 +578,68 @@
                 cursorDot.classList.remove('hovered');
                 cursorOutline.classList.remove('hovered');
             });
+        });
+        
+        // ИСПРАВЛЕНИЕ: Логика смены фона через IntersectionObserver
+        const bgJungle = document.getElementById('bg-jungle');
+        const bgCity = document.getElementById('bg-city');
+        const roadmapSection = document.getElementById('roadmap');
+
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    bgJungle.style.opacity = 0;
+                    bgCity.style.opacity = 1;
+                } else {
+                    const bounding = roadmapSection.getBoundingClientRect();
+                    if (bounding.top >= 0) {
+                       bgJungle.style.opacity = 1;
+                       bgCity.style.opacity = 0;
+                    }
+                }
+            });
+        }, { threshold: 0.1 }); 
+
+        if (roadmapSection) {
+            bgObserver.observe(roadmapSection);
+        }
+
+        // Анимация кнопки и частиц
+        const buyButton = document.getElementById('buy-button');
+        const particleContainer = document.getElementById('particle-container');
+        
+        buyButton.addEventListener('mouseenter', () => {
+            const rect = buyButton.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2;
+            const startY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('leaf-particle');
+                const size = Math.random() * 5 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particleContainer.appendChild(particle);
+
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = 80 + Math.random() * 120;
+                const duration = 800 + Math.random() * 700;
+                const rotation = Math.random() * 360 - 180;
+
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
+
+                particle.animate([
+                    { transform: `translate(-50%, -50%) scale(0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(1.5) rotate(${rotation}deg)`, opacity: 1, offset: 0.7 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle) * distance * 1.2}px), calc(-50% + ${Math.sin(angle) * distance * 1.2}px)) scale(0) rotate(${rotation * 1.5}deg)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.1, .9, .5, 1)'
+                });
+
+                setTimeout(() => particle.remove(), duration);
+            }
         });
 
     </script>
